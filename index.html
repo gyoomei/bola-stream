@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#00d4ff">
-  <meta name="description" content="BolaStream — kumpulan link nonton bola dengan pencarian cepat, favorit, dan mode installable.">
+  <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi, favorit, dan siap di-install.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <title>BolaStream — Link Nonton Bola</title>
@@ -141,14 +141,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      color: var(--accent-green);
-    }
-    .count {
-      font-size: 0.72rem;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(0,229,160,0.12);
-      border: 1px solid rgba(0,229,160,0.18);
       color: var(--accent-green);
     }
     .toolbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -315,7 +307,19 @@
       background: linear-gradient(135deg, rgba(0,229,160,0.1), rgba(0,212,255,0.1));
       border: 1px solid rgba(255,255,255,0.08);
     }
-    .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      opacity: 0.16;
+      transform: translateY(-2px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover .card-actions,
+    .card:focus-within .card-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
     .card-body { position: relative; z-index: 1; margin-bottom: 14px; }
     .card-title { font-weight: 800; font-size: 1rem; margin-bottom: 4px; }
     .card-url { font-size: 0.8rem; color: var(--text-secondary); word-break: break-all; }
@@ -471,11 +475,11 @@
     <header class="hero">
       <div class="hero-badge"><span class="dot"></span> Live Stream Hub</div>
       <h1>BolaStream</h1>
-      <p>Kumpulan link nonton bola yang lebih rapi, cepat dicari, bisa difavoritkan, dan siap di-install ke homescreen.</p>
+      <p>Kumpulan link nonton bola yang rapi, favorit, dan siap di-install.</p>
     </header>
 
     <div class="toolbar">
-      <div class="section-heading" id="allHeading">Semua Situs <span class="count" id="allCount">5</span></div>
+      <div class="section-heading" id="allHeading">Semua Situs</div>
       <div class="toolbar-right">
         <select class="select" id="sortSelect" aria-label="Urutkan">
           <option value="recommended">Recommended</option>
@@ -496,31 +500,28 @@
 
     <section class="section favorites-section" id="recentSection" hidden>
       <div class="section-header">
-        <div class="section-title">⏱️ Recently Opened <span class="count" id="recentCount">0</span></div>
-        <div class="section-subtitle">Link yang terakhir kamu buka</div>
+        <div class="section-title">⏱️ Recently Opened</div>
       </div>
       <div class="grid" id="recentGrid"></div>
     </section>
 
     <section class="section favorites-section" id="favoritesSection" hidden>
       <div class="section-header">
-        <div class="section-title">⭐ Favorit <span class="count" id="favCountSection">0</span></div>
-        <div class="section-subtitle">Simpan yang paling sering dipakai</div>
+        <div class="section-title">⭐ Favorit</div>
       </div>
       <div class="grid" id="favoritesGrid"></div>
     </section>
 
     <section class="section">
       <div class="section-header">
-        <div class="section-title" id="mainTitle">📡 Link Streaming <span class="count" id="mainCount">5</span></div>
-        <div class="section-subtitle" id="mainSubtitle">Urutan otomatis dari data</div>
+        <div class="section-title" id="mainTitle">📡 Link Streaming</div>
       </div>
       <main class="grid" id="cardGrid"></main>
     </section>
 
     <div class="no-results" id="noResults">
-      <div class="no-results-icon">🔍</div>
-      <div>Tidak ada hasil untuk pencarian atau filter ini.</div>
+      <div class="no-results-icon">⚠️</div>
+      <div>Belum ada link yang cocok untuk filter ini.</div>
     </div>
 
     <footer class="footer">
@@ -572,11 +573,6 @@
       favoritesGrid: document.getElementById('favoritesGrid'),
       cardGrid: document.getElementById('cardGrid'),
       noResults: document.getElementById('noResults'),
-      allCount: document.getElementById('allCount'),
-      recentCount: document.getElementById('recentCount'),
-      favCountSection: document.getElementById('favCountSection'),
-      mainCount: document.getElementById('mainCount'),
-      mainSubtitle: document.getElementById('mainSubtitle')
     };
 
     function safeParse(value, fallback) {
@@ -730,13 +726,8 @@
 
     function cardTemplate(item, opts = {}) {
       const favorite = isFavorite(item.url);
-      const color = item.color || 'green';
-      const badgeClass = `badge-${color}`;
-      const meta = opts.meta || item.source || hostFromUrl(item.url);
-      const label = opts.label || item.category || 'Link';
-      const openedAt = opts.openedAt ? `<span class="card-meta">${timeAgo(opts.openedAt)}</span>` : `<span class="card-meta">${escapeHtml(label)}</span>`;
       return `
-        <article class="card" data-url="${escapeHtml(item.url)}" data-name="${escapeHtml(item.name.toLowerCase())}" data-category="${escapeHtml(item.category.toLowerCase())}" data-source="${escapeHtml(item.source.toLowerCase())}" data-color="${escapeHtml(color)}">
+        <article class="card" data-url="${escapeHtml(item.url)}" data-name="${escapeHtml(item.name.toLowerCase())}" data-category="${escapeHtml(item.category.toLowerCase())}" data-source="${escapeHtml(item.source.toLowerCase())}" data-color="${escapeHtml(item.color || 'green')}">
           <div class="card-header">
             <div class="card-icon">${escapeHtml(item.icon)}</div>
             <div class="card-actions">
@@ -748,10 +739,6 @@
           <div class="card-body">
             <div class="card-title">${escapeHtml(item.name)}</div>
             <div class="card-url">${escapeHtml(hostFromUrl(item.url))}</div>
-          </div>
-          <div class="card-footer">
-            <span class="badge-live ${badgeClass}"><span class="pulse"></span> ${escapeHtml(item.category)}</span>
-            ${openedAt}
           </div>
         </article>
       `;
@@ -774,43 +761,39 @@
     }
 
     function renderRecent() {
-      const recentItems = state.recent
-        .map((entry) => ({ ...entry, category: entry.category || 'Recent' }))
-        .filter((item) => item && item.url);
-
-      el.recentCount.textContent = recentItems.length;
+      const recentItems = state.recent.slice(0, 4).filter((item) => item && item.url);
       if (!recentItems.length) {
         el.recentSection.hidden = true;
         el.recentGrid.innerHTML = '';
         return;
       }
       el.recentSection.hidden = false;
-      el.recentGrid.innerHTML = recentItems.map((item) => cardTemplate(item, { openedAt: item.openedAt, label: 'Dibuka terakhir' })).join('');
+      el.recentGrid.innerHTML = recentItems.map((item) => cardTemplate(item)).join('');
       attachCardBehaviors(el.recentGrid);
     }
 
     function renderFavorites() {
       const favs = state.favorites.filter(Boolean);
-      el.favCountSection.textContent = favs.length;
       if (!favs.length) {
         el.favoritesSection.hidden = true;
         el.favoritesGrid.innerHTML = '';
         return;
       }
       el.favoritesSection.hidden = false;
-      const favLinks = favs.map((fav) => ({ ...fav, category: fav.category || 'Favorit' }));
-      el.favoritesGrid.innerHTML = favLinks.map((item) => cardTemplate(item, { label: 'Favorit' })).join('');
+      el.favoritesGrid.innerHTML = favs.map((item) => cardTemplate(item)).join('');
       attachCardBehaviors(el.favoritesGrid);
     }
 
     function renderMain() {
       const items = filteredLinks();
-      el.allCount.textContent = items.length;
-      el.mainCount.textContent = items.length;
-      el.mainSubtitle.textContent = 'Urutan otomatis dari data';
       el.cardGrid.innerHTML = items.length ? items.map((item) => cardTemplate(item)).join('') : '';
       attachCardBehaviors(el.cardGrid);
-      el.cardGrid.classList.toggle('list-view', state.view === 'list');
+      el.noResults.hidden = items.length > 0;
+      el.mainTitle.textContent = '📡 Link Streaming';
+    }
+
+    function updateStats() {
+      // intentionally left minimal for the clean layout
     }
 
     function attachCardBehaviors(root) {
