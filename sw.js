@@ -1,4 +1,4 @@
-const CACHE = 'bolastream-v1';
+const CACHE = 'bolastream-v2';
 const ASSETS = ['./', './index.html', './bg.jpg', './links.json', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (event) => {
@@ -14,6 +14,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   if (request.method !== 'GET') return;
+
+  const isNavigation = request.mode === 'navigate' || request.destination === 'document';
+
+  if (isNavigation) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(CACHE).then((cache) => cache.put('./index.html', copy)).catch(() => {});
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(request).then((cached) => {
