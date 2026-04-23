@@ -124,65 +124,7 @@
     @keyframes gradient-shift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
     .hero p { color: var(--text-secondary); font-size: 1.02rem; max-width: 620px; margin: 0 auto; line-height: 1.65; }
 
-    .search-wrap {
-      position: relative;
-      max-width: 680px;
-      margin: 0 auto 20px;
-      animation: fadeInUp 0.8s ease-out 0.08s both;
-    }
-    .search-icon {
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--accent-blue);
-      font-size: 1.05rem;
-      pointer-events: none;
-    }
-    .search-input {
-      width: 100%;
-      padding: 16px 18px 16px 50px;
-      background: rgba(10, 13, 18, 0.62);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(0,212,255,0.15);
-      border-radius: 16px;
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-    .search-input::placeholder { color: var(--text-secondary); }
-    .search-input:focus {
-      border-color: var(--accent-blue);
-      box-shadow: 0 0 0 3px rgba(0,212,255,0.15), 0 0 30px rgba(0,212,255,0.08);
-      background: rgba(10, 13, 18, 0.82);
-    }
-
-    .stats-bar {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-bottom: 18px;
-      animation: fadeInUp 0.8s ease-out 0.12s both;
-    }
-    .stat {
-      background: var(--surface);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px 18px;
-      text-align: center;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.2);
-    }
-    .stat-value { font-size: 1.55rem; font-weight: 900; line-height: 1; margin-bottom: 6px; }
-    .stat-label { font-size: 0.76rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-    .stat.green .stat-value { color: var(--accent-green); }
-    .stat.blue .stat-value { color: var(--accent-blue); }
-    .stat.purple .stat-value { color: var(--accent-purple); }
-    .stat.orange .stat-value { color: var(--accent-orange); }
-
-    .toolbar {
+        .toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -495,7 +437,7 @@
     ::selection { background: linear-gradient(135deg, rgba(0,229,160,0.3), rgba(0,212,255,0.3)); color: #fff; }
 
     @media (max-width: 860px) {
-      .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
     }
 
     @media (max-width: 640px) {
@@ -505,14 +447,12 @@
       .grid { grid-template-columns: 1fr; }
       .grid.list-view .card { grid-template-columns: 56px 1fr; }
       .grid.list-view .card-actions { grid-column: 1 / -1; }
-      .stats-bar { grid-template-columns: 1fr 1fr; }
       .card-actions { opacity: 1; transform: none; }
       .toast-container { right: 16px; left: 16px; bottom: 16px; }
       .toast { min-width: unset; width: 100%; }
     }
 
     @media (max-width: 480px) {
-      .stats-bar { grid-template-columns: 1fr; }
       .toolbar-right { width: 100%; }
       .select { width: 100%; }
       .view-toggle { width: 100%; justify-content: center; }
@@ -533,18 +473,6 @@
       <h1>BolaStream</h1>
       <p>Kumpulan link nonton bola yang lebih rapi, cepat dicari, bisa difavoritkan, dan siap di-install ke homescreen.</p>
     </header>
-
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="Cari situs, kategori, atau source...">
-    </div>
-
-    <div class="stats-bar" id="statsBar">
-      <div class="stat green"><div class="stat-value" id="totalCount">5</div><div class="stat-label">Link</div></div>
-      <div class="stat blue"><div class="stat-value" id="favCountTop">0</div><div class="stat-label">Favorit</div></div>
-      <div class="stat purple"><div class="stat-value" id="catCount">0</div><div class="stat-label">Kategori</div></div>
-      <div class="stat orange"><div class="stat-value" id="recentCountTop">0</div><div class="stat-label">Recent</div></div>
-    </div>
 
     <div class="toolbar">
       <div class="section-heading" id="allHeading">Semua Situs <span class="count" id="allCount">5</span></div>
@@ -626,14 +554,12 @@
       recent: safeParse(localStorage.getItem(STORAGE.recent), []),
       view: localStorage.getItem(STORAGE.view) || 'grid',
       sort: localStorage.getItem(STORAGE.sort) || 'recommended',
-      category: localStorage.getItem(STORAGE.category) || 'all',
-      query: ''
+      category: localStorage.getItem(STORAGE.category) || 'all'
     };
 
     let deferredPrompt = null;
 
     const el = {
-      searchInput: document.getElementById('searchInput'),
       sortSelect: document.getElementById('sortSelect'),
       refreshBtn: document.getElementById('refreshBtn'),
       installBtn: document.getElementById('installBtn'),
@@ -646,10 +572,6 @@
       favoritesGrid: document.getElementById('favoritesGrid'),
       cardGrid: document.getElementById('cardGrid'),
       noResults: document.getElementById('noResults'),
-      totalCount: document.getElementById('totalCount'),
-      favCountTop: document.getElementById('favCountTop'),
-      catCount: document.getElementById('catCount'),
-      recentCountTop: document.getElementById('recentCountTop'),
       allCount: document.getElementById('allCount'),
       recentCount: document.getElementById('recentCount'),
       favCountSection: document.getElementById('favCountSection'),
@@ -788,11 +710,9 @@
     }
 
     function filteredLinks() {
-      const query = state.query.trim().toLowerCase();
       let links = state.links.filter((item) => {
-        const matchesSearch = !query || [item.name, item.url, item.source, item.category].join(' ').toLowerCase().includes(query);
         const matchesCategory = state.category === 'all' || (state.category === 'favorites' ? isFavorite(item.url) : item.category === state.category);
-        return matchesSearch && matchesCategory;
+        return matchesCategory;
       });
 
       if (state.sort === 'alphabet') {
@@ -848,7 +768,6 @@
         const active = state.category === chip.id;
         return `<button class="chip ${chip.cls || ''} ${active ? 'active' : ''}" type="button" data-category="${escapeHtml(chip.id)}">${escapeHtml(chip.label)}</button>`;
       }).join('');
-      el.catCount.textContent = categories.length;
       el.categoryChips.querySelectorAll('.chip').forEach((button) => {
         button.addEventListener('click', () => setCategory(button.dataset.category));
       });
@@ -859,7 +778,6 @@
         .map((entry) => ({ ...entry, category: entry.category || 'Recent' }))
         .filter((item) => item && item.url);
 
-      el.recentCountTop.textContent = recentItems.length;
       el.recentCount.textContent = recentItems.length;
       if (!recentItems.length) {
         el.recentSection.hidden = true;
@@ -873,7 +791,6 @@
 
     function renderFavorites() {
       const favs = state.favorites.filter(Boolean);
-      el.favCountTop.textContent = favs.length;
       el.favCountSection.textContent = favs.length;
       if (!favs.length) {
         el.favoritesSection.hidden = true;
@@ -888,10 +805,9 @@
 
     function renderMain() {
       const items = filteredLinks();
-      el.totalCount.textContent = state.links.length;
       el.allCount.textContent = items.length;
       el.mainCount.textContent = items.length;
-      el.mainSubtitle.textContent = state.query ? `Hasil pencarian untuk "${state.query}"` : `Filter: ${state.category === 'all' ? 'Semua' : state.category}`;
+      el.mainSubtitle.textContent = 'Urutan otomatis dari data';
       el.cardGrid.innerHTML = items.length ? items.map((item) => cardTemplate(item)).join('') : '';
       attachCardBehaviors(el.cardGrid);
       el.cardGrid.classList.toggle('list-view', state.view === 'list');
@@ -932,14 +848,7 @@
     }
 
     function updateStats() {
-      const total = state.links.length;
-      const favs = state.favorites.length;
-      const cats = uniq(state.links.map((item) => item.category)).length;
-      const recents = state.recent.length;
-      el.totalCount.textContent = total;
-      el.favCountTop.textContent = favs;
-      el.catCount.textContent = cats;
-      el.recentCountTop.textContent = recents;
+      // intentionally left minimal for the clean layout
     }
 
     function renderAll() {
@@ -992,11 +901,6 @@
       }
     }
 
-    el.searchInput.addEventListener('input', (e) => {
-      state.query = e.target.value;
-      renderMain();
-    });
-
     el.sortSelect.value = state.sort;
     el.sortSelect.addEventListener('change', (e) => setSort(e.target.value));
     el.refreshBtn.addEventListener('click', () => loadLinks());
@@ -1025,7 +929,6 @@
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        el.searchInput.focus();
       }
     });
 
