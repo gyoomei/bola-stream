@@ -4,178 +4,746 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BolaStream — Link Nonton Bola</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0d10;
-      --card: #14171c;
-      --card-hover: #1a1e24;
+      --bg: #030508;
+      --bg-elevated: #0a0d12;
+      --surface: rgba(255,255,255,0.03);
+      --surface-hover: rgba(255,255,255,0.06);
       --border: rgba(255,255,255,0.06);
-      --text: #e6e8eb;
-      --muted: #8b919a;
-      --accent: #2ecc71;
-      --accent-2: #00d2ff;
+      --border-hover: rgba(255,255,255,0.12);
+      --text: #f0f2f5;
+      --text-secondary: #8a8f98;
+      --accent: #00e5a0;
+      --accent-glow: rgba(0,229,160,0.15);
+      --accent-2: #00d4ff;
+      --accent-2-glow: rgba(0,212,255,0.15);
+      --danger: #ff4757;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       line-height: 1.5;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 16px;
+      overflow-x: hidden;
+      position: relative;
     }
-    header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-    header p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
+
+    /* Animated Background */
+    .bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: 900px;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
     }
-    a.card {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      text-decoration: none;
-      color: inherit;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 20s ease-in-out infinite;
     }
-    a.card:hover {
-      transform: translateY(-2px);
-      background: var(--card-hover);
-      border-color: rgba(255,255,255,0.12);
+
+    .orb-1 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,229,160,0.3), transparent 70%);
+      top: -100px; left: -100px;
+      animation-delay: 0s;
     }
-    .icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+
+    .orb-2 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(0,212,255,0.25), transparent 70%);
+      top: 40%; right: -100px;
+      animation-delay: -7s;
     }
-    .info {
-      min-width: 0;
+
+    .orb-3 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(138,43,226,0.2), transparent 70%);
+      bottom: -50px; left: 30%;
+      animation-delay: -14s;
     }
-    .title {
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    /* Noise overlay */
+    .noise {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.03;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Layout */
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 20px 40px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.2);
+      border-radius: 999px;
+      font-size: 0.75rem;
       font-weight: 600;
-      font-size: 0.98rem;
-      margin-bottom: 2px;
-    }
-    .url {
-      color: var(--muted);
-      font-size: 0.82rem;
-      word-break: break-all;
-    }
-    .badge-live {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: .4px;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       color: var(--accent);
-      background: rgba(46,204,113,0.08);
-      border: 1px solid rgba(46,204,113,0.18);
-      padding: 3px 8px;
+      margin-bottom: 20px;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #8a8f98 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Search */
+    .search-wrap {
+      position: relative;
+      max-width: 520px;
+      margin: 0 auto 40px;
+      animation: fadeInUp 0.8s ease-out 0.1s both;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: var(--surface-hover);
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease-out 0.15s both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    /* Card */
+    .card {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 20px;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(0,229,160,0.1), rgba(0,212,255,0.1));
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover .card-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+      border-color: var(--border-hover);
+      transform: scale(1.1);
+    }
+
+    .btn-icon.copied {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .card-body {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .card-url {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      word-break: break-all;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,229,160,0.08);
+      border: 1px solid rgba(0,229,160,0.15);
+      padding: 4px 10px;
       border-radius: 999px;
     }
-    footer {
-      margin-top: 36px;
-      color: var(--muted);
-      font-size: 0.8rem;
+
+    .badge-live .pulse {
+      width: 5px; height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
     }
-    @media (max-width: 480px) {
-      body { padding: 24px 12px; }
-      a.card { padding: 14px; }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .footer-heart {
+      color: var(--danger);
+      display: inline-block;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.15); }
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+      display: none;
+    }
+
+    .no-results.show {
+      display: block;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .no-results-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container { padding: 40px 16px 32px; }
+      .hero h1 { font-size: 2rem; }
+      .grid { grid-template-columns: 1fr; }
+      .stats-bar { gap: 24px; }
+      .card-actions { opacity: 1; transform: none; }
+    }
+
+    /* Selection */
+    ::selection {
+      background: rgba(0,229,160,0.25);
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>⚽ BolaStream</h1>
-    <p>Kumpulan link nonton bola — update kapan saja.</p>
-  </header>
+  <!-- Background Effects -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="noise"></div>
 
-  <main class="grid">
-    <a class="card" href="https://starballtv007.blogspot.com/" target="_blank" rel="noopener noreferrer">
-      <div class="icon">📡</div>
-      <div class="info">
-        <div class="title">Starball TV</div>
-        <div class="url">starballtv007.blogspot.com</div>
-        <span class="badge-live">Live Streaming</span>
+  <div class="container">
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Live Streaming Updated
       </div>
-    </a>
+      <h1>BolaStream</h1>
+      <p>Kumpulan link nonton bola terbaik — update kapan saja, nonton di mana saja.</p>
+    </header>
 
-    <a class="card" href="https://kltraid.pages.dev/" target="_blank" rel="noopener noreferrer">
-      <div class="icon">🖥️</div>
-      <div class="info">
-        <div class="title">KLTraid</div>
-        <div class="url">kltraid.pages.dev</div>
-        <span class="badge-live">Live Streaming</span>
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Cari situs streaming...">
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-value" id="totalCount">6</div>
+        <div class="stat-label">Situs</div>
       </div>
-    </a>
-
-    <a class="card" href="https://pelotalibretv.su/" target="_blank" rel="noopener noreferrer">
-      <div class="icon">📺</div>
-      <div class="info">
-        <div class="title">Pelota Libre TV</div>
-        <div class="url">pelotalibretv.su</div>
-        <span class="badge-live">Live Streaming</span>
+      <div class="stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Gratis</div>
       </div>
-    </a>
-
-    <a class="card" href="https://carryflix.com/wp/" target="_blank" rel="noopener noreferrer">
-      <div class="icon">🎬</div>
-      <div class="info">
-        <div class="title">CarryFlix</div>
-        <div class="url">carryflix.com/wp</div>
-        <span class="badge-live">Live Streaming</span>
+      <div class="stat">
+        <div class="stat-value">24/7</div>
+        <div class="stat-label">Live</div>
       </div>
-    </a>
+    </div>
 
-    <a class="card" href="https://footy100.net" target="_blank" rel="noopener noreferrer">
-      <div class="icon">⚽</div>
-      <div class="info">
-        <div class="title">Footy100</div>
-        <div class="url">footy100.net</div>
-        <span class="badge-live">Live Streaming</span>
-      </div>
-    </a>
+    <!-- Grid -->
+    <main class="grid" id="cardGrid">
+      <article class="card" data-url="https://starballtv007.blogspot.com/" data-name="starball tv">
+        <div class="card-header">
+          <div class="card-icon">📡</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://starballtv007.blogspot.com/')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://starballtv007.blogspot.com/')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Starball TV</div>
+          <div class="card-url">starballtv007.blogspot.com</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">Blogspot</span>
+        </div>
+      </article>
 
-    <a class="card" href="https://vida24bc.a5s4built5kdnnuhurt.cfd/id" target="_blank" rel="noopener noreferrer">
-      <div class="icon">🌍</div>
-      <div class="info">
-        <div class="title">Vida24 BC</div>
-        <div class="url">vida24bc.a5s4built5kdnnuhurt.cfd/id</div>
-        <span class="badge-live">Live Streaming</span>
-      </div>
-    </a>
-  </main>
+      <article class="card" data-url="https://kltraid.pages.dev/" data-name="kltraid">
+        <div class="card-header">
+          <div class="card-icon">🖥️</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://kltraid.pages.dev/')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://kltraid.pages.dev/')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">KLTraid</div>
+          <div class="card-url">kltraid.pages.dev</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">Pages.dev</span>
+        </div>
+      </article>
 
-  <footer>
-    Simpan bookmark ini — link bisa berubah sewaktu-waktu.
-  </footer>
+      <article class="card" data-url="https://pelotalibretv.su/" data-name="pelota libre tv">
+        <div class="card-header">
+          <div class="card-icon">📺</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://pelotalibretv.su/')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://pelotalibretv.su/')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Pelota Libre TV</div>
+          <div class="card-url">pelotalibretv.su</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">.su</span>
+        </div>
+      </article>
+
+      <article class="card" data-url="https://carryflix.com/wp/" data-name="carryflix">
+        <div class="card-header">
+          <div class="card-icon">🎬</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://carryflix.com/wp/')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://carryflix.com/wp/')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">CarryFlix</div>
+          <div class="card-url">carryflix.com/wp</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">WordPress</span>
+        </div>
+      </article>
+
+      <article class="card" data-url="https://footy100.net" data-name="footy100">
+        <div class="card-header">
+          <div class="card-icon">⚽</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://footy100.net')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://footy100.net')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Footy100</div>
+          <div class="card-url">footy100.net</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">.net</span>
+        </div>
+      </article>
+
+      <article class="card" data-url="https://vida24bc.a5s4built5kdnnuhurt.cfd/id" data-name="vida24 bc">
+        <div class="card-header">
+          <div class="card-icon">🌍</div>
+          <div class="card-actions">
+            <button class="btn-icon" onclick="copyLink(event, 'https://vida24bc.a5s4built5kdnnuhurt.cfd/id')" title="Copy link">📋</button>
+            <button class="btn-icon" onclick="openLink(event, 'https://vida24bc.a5s4built5kdnnuhurt.cfd/id')" title="Buka di tab baru">↗</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">Vida24 BC</div>
+          <div class="card-url">vida24bc.a5s4built5kdnnuhurt.cfd/id</div>
+        </div>
+        <div class="card-footer">
+          <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+          <span class="card-meta">Multi-lang</span>
+        </div>
+      </article>
+    </main>
+
+    <div class="no-results" id="noResults">
+      <div class="no-results-icon">🔍</div>
+      <div>Tidak ada hasil untuk pencarian ini.</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p class="footer-text">
+        Dibuat dengan <span class="footer-heart">❤</span> untuk penggemar bola — link bisa berubah sewaktu-waktu.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Mouse tracking glow effect
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', x + '%');
+        card.style.setProperty('--mouse-y', y + '%');
+      });
+    });
+
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    const cardGrid = document.getElementById('cardGrid');
+    const noResults = document.getElementById('noResults');
+    const totalCount = document.getElementById('totalCount');
+    const cards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('input', e => {
+      const query = e.target.value.toLowerCase().trim();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const name = card.dataset.name;
+        const url = card.dataset.url;
+        const match = name.includes(query) || url.includes(query);
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      });
+
+      totalCount.textContent = visible;
+      noResults.classList.toggle('show', visible === 0 && query.length > 0);
+    });
+
+    // Copy link
+    async function copyLink(e, url) {
+      e.stopPropagation();
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(url);
+        const btn = e.currentTarget;
+        const original = btn.textContent;
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch (err) {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+    }
+
+    // Open link
+    function openLink(e, url) {
+      e.stopPropagation();
+      e.preventDefault();
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    // Card click = open link
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const url = card.dataset.url;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+    });
+
+    // Entrance animation with stagger
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach((card, i) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.08}s`;
+      observer.observe(card);
+    });
+
+    // Trigger initial reveal
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      });
+    }, 100);
+  </script>
 </body>
 </html>
