@@ -251,8 +251,6 @@
       align-items: center;
       gap: 10px;
     }
-    .section-subtitle { color: var(--text-secondary); font-size: 0.8rem; }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -285,7 +283,6 @@
     .card:hover::before { opacity: 1; }
     .grid.list-view .card { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 14px; }
     .grid.list-view .card-body { margin: 0; }
-    .grid.list-view .card-footer { justify-content: flex-end; gap: 12px; }
 
     .card-header {
       display: flex;
@@ -323,39 +320,6 @@
     .card-body { position: relative; z-index: 1; margin-bottom: 12px; }
     .card-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 3px; }
     .card-url { font-size: 0.76rem; color: var(--text-secondary); word-break: break-all; }
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
-    .badge-live {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-      border: 1px solid transparent;
-    }
-    .pulse {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: currentColor;
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.72); opacity: 0.45; } }
-    .badge-green { color: var(--accent-green); background: rgba(0,229,160,0.1); border-color: rgba(0,229,160,0.15); }
-    .badge-blue { color: var(--accent-blue); background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.15); }
-    .badge-purple { color: var(--accent-purple); background: rgba(168,85,247,0.1); border-color: rgba(168,85,247,0.15); }
-    .badge-orange { color: var(--accent-orange); background: rgba(251,146,60,0.1); border-color: rgba(251,146,60,0.15); }
-    .badge-pink { color: var(--accent-pink); background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.15); }
-    .card-meta { font-size: 0.72rem; color: var(--text-secondary); }
 
     .favorites-section[hidden], .section[hidden] { display: none !important; }
     .empty-state {
