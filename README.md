@@ -11,7 +11,6 @@ Kumpulan link nonton bola — simpan & akses kapan saja.
 | 3 | Pelota Libre TV | [Buka](https://pelotalibretv.su/) |
 | 4 | CarryFlix | [Buka](https://carryflix.com/wp/) |
 | 5 | Footy100 | [Buka](https://footy100.net) |
-| 6 | Vida24 BC | [Buka](https://vida24bc.a5s4built5kdnnuhurt.cfd/id) |
 
 ## Cara pakai
 
