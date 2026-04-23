@@ -22,6 +22,7 @@
       --accent-2: #00d4ff;
       --accent-2-glow: rgba(0,212,255,0.2);
       --danger: #ff4757;
+      --star: #ffd700;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -177,7 +178,7 @@
     .search-wrap {
       position: relative;
       max-width: 520px;
-      margin: 0 auto 40px;
+      margin: 0 auto 24px;
       animation: fadeInUp 0.8s ease-out 0.1s both;
     }
 
@@ -216,6 +217,72 @@
       background: var(--surface-hover);
     }
 
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.8s ease-out 0.15s both;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 4px;
+      background: rgba(10, 13, 18, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .view-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .view-btn:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .view-btn.active {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      border: 1px solid var(--border-hover);
+    }
+
+    .section-heading {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-heading .count {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      color: var(--text);
+    }
+
     /* Stats bar */
     .stats-bar {
       display: flex;
@@ -250,6 +317,61 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 16px;
       animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    /* List view */
+    .grid.list-view {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .grid.list-view .card {
+      flex-direction: row;
+      align-items: center;
+      padding: 14px 18px;
+      gap: 14px;
+    }
+
+    .grid.list-view .card-icon {
+      width: 38px;
+      height: 38px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+    }
+
+    .grid.list-view .card-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .grid.list-view .card-title {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+
+    .grid.list-view .card-url {
+      font-size: 0.75rem;
+    }
+
+    .grid.list-view .card-footer {
+      margin-top: 0;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .grid.list-view .badge-live {
+      display: none;
+    }
+
+    .grid.list-view .card-meta {
+      font-size: 0.7rem;
+    }
+
+    .grid.list-view .card-actions {
+      opacity: 1;
+      transform: none;
+      flex-direction: row;
     }
 
     /* Card */
@@ -293,11 +415,20 @@
       box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
     }
 
+    .grid.list-view .card:hover {
+      transform: translateX(4px) scale(1.005);
+    }
+
     .card-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
+    }
+
+    .grid.list-view .card-header {
+      align-items: center;
+      flex-direction: row;
     }
 
     .card-icon {
@@ -358,6 +489,16 @@
       background: var(--accent-glow);
     }
 
+    .btn-icon.star {
+      font-size: 0.9rem;
+    }
+
+    .btn-icon.star.active {
+      color: var(--star);
+      border-color: rgba(255, 215, 0, 0.4);
+      background: rgba(255, 215, 0, 0.1);
+    }
+
     .card-body {
       flex: 1;
       position: relative;
@@ -416,6 +557,66 @@
     .card-meta {
       font-size: 0.75rem;
       color: var(--text-secondary);
+    }
+
+    /* Favorites section */
+    .favorites-section {
+      margin-bottom: 32px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .favorites-section .grid {
+      animation: none;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: linear-gradient(135deg, rgba(12, 16, 24, 0.95), rgba(8, 10, 16, 0.98));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-hover);
+      border-radius: 12px;
+      padding: 12px 18px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(120%);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: auto;
+      min-width: 220px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
     }
 
     /* Footer */
@@ -488,6 +689,17 @@
       .grid { grid-template-columns: 1fr; }
       .stats-bar { gap: 24px; }
       .card-actions { opacity: 1; transform: none; }
+      .toast-container { right: 16px; bottom: 16px; left: 16px; }
+      .toast { min-width: unset; width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .grid.list-view .card-footer {
+        display: none;
+      }
+      .grid.list-view .card-url {
+        -webkit-line-clamp: 1;
+      }
     }
 
     /* Selection */
@@ -537,12 +749,32 @@
       </div>
     </div>
 
-    <!-- Grid -->
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="section-heading" id="allHeading">
+        Semua Situs <span class="count" id="allCount">5</span>
+      </div>
+      <div class="view-toggle">
+        <button class="view-btn active" id="btnGrid" onclick="setView('grid')" title="Grid view">▦</button>
+        <button class="view-btn" id="btnList" onclick="setView('list')" title="List view">☰</button>
+      </div>
+    </div>
+
+    <!-- Favorites Section -->
+    <div class="favorites-section" id="favoritesSection" style="display:none;">
+      <div class="section-heading">
+        ⭐ Favorit <span class="count" id="favCount">0</span>
+      </div>
+      <div class="grid" id="favoritesGrid"></div>
+    </div>
+
+    <!-- Main Grid -->
     <main class="grid" id="cardGrid">
-      <article class="card" data-url="https://starballtv007.blogspot.com/" data-name="starball tv">
+      <article class="card" data-url="https://starballtv007.blogspot.com/" data-name="starball tv" data-icon="📡">
         <div class="card-header">
           <div class="card-icon">📡</div>
           <div class="card-actions">
+            <button class="btn-icon star" onclick="toggleBookmark(event, 'https://starballtv007.blogspot.com/', 'Starball TV', '📡')" title="Simpan favorit">☆</button>
             <button class="btn-icon" onclick="copyLink(event, 'https://starballtv007.blogspot.com/')" title="Copy link">📋</button>
             <button class="btn-icon" onclick="openLink(event, 'https://starballtv007.blogspot.com/')" title="Buka di tab baru">↗</button>
           </div>
@@ -557,10 +789,11 @@
         </div>
       </article>
 
-      <article class="card" data-url="https://kltraid.pages.dev/" data-name="kltraid">
+      <article class="card" data-url="https://kltraid.pages.dev/" data-name="kltraid" data-icon="🖥️">
         <div class="card-header">
           <div class="card-icon">🖥️</div>
           <div class="card-actions">
+            <button class="btn-icon star" onclick="toggleBookmark(event, 'https://kltraid.pages.dev/', 'KLTraid', '🖥️')" title="Simpan favorit">☆</button>
             <button class="btn-icon" onclick="copyLink(event, 'https://kltraid.pages.dev/')" title="Copy link">📋</button>
             <button class="btn-icon" onclick="openLink(event, 'https://kltraid.pages.dev/')" title="Buka di tab baru">↗</button>
           </div>
@@ -575,10 +808,11 @@
         </div>
       </article>
 
-      <article class="card" data-url="https://pelotalibretv.su/" data-name="pelota libre tv">
+      <article class="card" data-url="https://pelotalibretv.su/" data-name="pelota libre tv" data-icon="📺">
         <div class="card-header">
           <div class="card-icon">📺</div>
           <div class="card-actions">
+            <button class="btn-icon star" onclick="toggleBookmark(event, 'https://pelotalibretv.su/', 'Pelota Libre TV', '📺')" title="Simpan favorit">☆</button>
             <button class="btn-icon" onclick="copyLink(event, 'https://pelotalibretv.su/')" title="Copy link">📋</button>
             <button class="btn-icon" onclick="openLink(event, 'https://pelotalibretv.su/')" title="Buka di tab baru">↗</button>
           </div>
@@ -593,10 +827,11 @@
         </div>
       </article>
 
-      <article class="card" data-url="https://carryflix.com/wp/" data-name="carryflix">
+      <article class="card" data-url="https://carryflix.com/wp/" data-name="carryflix" data-icon="🎬">
         <div class="card-header">
           <div class="card-icon">🎬</div>
           <div class="card-actions">
+            <button class="btn-icon star" onclick="toggleBookmark(event, 'https://carryflix.com/wp/', 'CarryFlix', '🎬')" title="Simpan favorit">☆</button>
             <button class="btn-icon" onclick="copyLink(event, 'https://carryflix.com/wp/')" title="Copy link">📋</button>
             <button class="btn-icon" onclick="openLink(event, 'https://carryflix.com/wp/')" title="Buka di tab baru">↗</button>
           </div>
@@ -611,10 +846,11 @@
         </div>
       </article>
 
-      <article class="card" data-url="https://footy100.net" data-name="footy100">
+      <article class="card" data-url="https://footy100.net" data-name="footy100" data-icon="⚽">
         <div class="card-header">
           <div class="card-icon">⚽</div>
           <div class="card-actions">
+            <button class="btn-icon star" onclick="toggleBookmark(event, 'https://footy100.net', 'Footy100', '⚽')" title="Simpan favorit">☆</button>
             <button class="btn-icon" onclick="copyLink(event, 'https://footy100.net')" title="Copy link">📋</button>
             <button class="btn-icon" onclick="openLink(event, 'https://footy100.net')" title="Buka di tab baru">↗</button>
           </div>
@@ -628,8 +864,6 @@
           <span class="card-meta">.net</span>
         </div>
       </article>
-
-
     </main>
 
     <div class="no-results" id="noResults">
@@ -645,30 +879,178 @@
     </footer>
   </div>
 
-  <script>
-    // Mouse tracking glow effect
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mouse-x', x + '%');
-        card.style.setProperty('--mouse-y', y + '%');
-      });
-    });
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
-    // Search filter
+  <script>
+    // ========== STATE ==========
+    let favorites = JSON.parse(localStorage.getItem('bolastream_favorites') || '[]');
+    let currentView = localStorage.getItem('bolastream_view') || 'grid';
+
+    // ========== TOAST ==========
+    function showToast(message, icon = '✓') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="toast-icon">${icon}</span><span>${message}</span>`;
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 2500);
+    }
+
+    // ========== VIEW TOGGLE ==========
+    function setView(view) {
+      currentView = view;
+      localStorage.setItem('bolastream_view', view);
+
+      const grid = document.getElementById('cardGrid');
+      const favGrid = document.getElementById('favoritesGrid');
+      const btnGrid = document.getElementById('btnGrid');
+      const btnList = document.getElementById('btnList');
+
+      if (view === 'list') {
+        grid.classList.add('list-view');
+        if (favGrid) favGrid.classList.add('list-view');
+        btnGrid.classList.remove('active');
+        btnList.classList.add('active');
+      } else {
+        grid.classList.remove('list-view');
+        if (favGrid) favGrid.classList.remove('list-view');
+        btnGrid.classList.add('active');
+        btnList.classList.remove('active');
+      }
+    }
+
+    // ========== BOOKMARKS ==========
+    function toggleBookmark(e, url, name, icon) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      const idx = favorites.findIndex(f => f.url === url);
+      if (idx >= 0) {
+        favorites.splice(idx, 1);
+        showToast('Dihapus dari favorit', '★');
+      } else {
+        favorites.push({ url, name, icon });
+        showToast('Ditambahkan ke favorit', '★');
+      }
+
+      localStorage.setItem('bolastream_favorites', JSON.stringify(favorites));
+      renderFavorites();
+      updateBookmarkIcons();
+    }
+
+    function updateBookmarkIcons() {
+      document.querySelectorAll('.card').forEach(card => {
+        const url = card.dataset.url;
+        const btn = card.querySelector('.btn-icon.star');
+        if (!btn) return;
+        const isFav = favorites.some(f => f.url === url);
+        btn.textContent = isFav ? '★' : '☆';
+        btn.classList.toggle('active', isFav);
+      });
+    }
+
+    function createCardHTML(item) {
+      const isFav = favorites.some(f => f.url === item.url);
+      const starClass = isFav ? 'active' : '';
+      const starChar = isFav ? '★' : '☆';
+
+      // Extract domain for meta
+      let meta = '';
+      try {
+        const u = new URL(item.url);
+        meta = u.hostname.replace(/^www\./, '');
+      } catch(e) {
+        meta = 'Link';
+      }
+
+      return `
+        <article class="card" data-url="${item.url}" data-name="${item.name.toLowerCase()}" data-icon="${item.icon}">
+          <div class="card-header">
+            <div class="card-icon">${item.icon}</div>
+            <div class="card-actions">
+              <button class="btn-icon star ${starClass}" onclick="toggleBookmark(event, '${item.url}', '${item.name.replace(/'/g, "\\'")}', '${item.icon}')" title="Simpan favorit">${starChar}</button>
+              <button class="btn-icon" onclick="copyLink(event, '${item.url}')" title="Copy link">📋</button>
+              <button class="btn-icon" onclick="openLink(event, '${item.url}')" title="Buka di tab baru">↗</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">${item.name}</div>
+            <div class="card-url">${meta}</div>
+          </div>
+          <div class="card-footer">
+            <span class="badge-live"><span class="pulse"></span> Live Streaming</span>
+            <span class="card-meta">${meta.split('.').pop() || 'Web'}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderFavorites() {
+      const section = document.getElementById('favoritesSection');
+      const grid = document.getElementById('favoritesGrid');
+      const count = document.getElementById('favCount');
+
+      if (!favorites.length) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      count.textContent = favorites.length;
+      grid.innerHTML = favorites.map(f => createCardHTML(f)).join('');
+
+      if (currentView === 'list') {
+        grid.classList.add('list-view');
+      } else {
+        grid.classList.remove('list-view');
+      }
+
+      // Re-attach mouse glow
+      attachCardGlow();
+      // Re-attach card click
+      attachCardClicks();
+      // Re-observe for animation
+      observeCards();
+    }
+
+    // ========== MOUSE GLOW ==========
+    function attachCardGlow() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.removeEventListener('mousemove', onCardMouseMove);
+        card.addEventListener('mousemove', onCardMouseMove);
+      });
+    }
+
+    function onCardMouseMove(e) {
+      const rect = this.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      this.style.setProperty('--mouse-x', x + '%');
+      this.style.setProperty('--mouse-y', y + '%');
+    }
+
+    // ========== SEARCH ==========
     const searchInput = document.getElementById('searchInput');
     const cardGrid = document.getElementById('cardGrid');
     const noResults = document.getElementById('noResults');
     const totalCount = document.getElementById('totalCount');
-    const cards = document.querySelectorAll('.card');
+    const allCount = document.getElementById('allCount');
+    const cards = () => document.querySelectorAll('#cardGrid .card');
 
     searchInput.addEventListener('input', e => {
       const query = e.target.value.toLowerCase().trim();
       let visible = 0;
 
-      cards.forEach(card => {
+      cards().forEach(card => {
         const name = card.dataset.name;
         const url = card.dataset.url;
         const match = name.includes(query) || url.includes(query);
@@ -676,11 +1058,21 @@
         if (match) visible++;
       });
 
+      // Also hide favorites that don't match? No, keep favorites independent or filter them too?
+      // Let's filter favorites too for consistency
+      document.querySelectorAll('#favoritesGrid .card').forEach(card => {
+        const name = card.dataset.name;
+        const url = card.dataset.url;
+        const match = name.includes(query) || url.includes(query);
+        card.style.display = match ? '' : 'none';
+      });
+
       totalCount.textContent = visible;
+      allCount.textContent = visible;
       noResults.classList.toggle('show', visible === 0 && query.length > 0);
     });
 
-    // Copy link
+    // ========== COPY / OPEN ==========
     async function copyLink(e, url) {
       e.stopPropagation();
       e.preventDefault();
@@ -690,60 +1082,73 @@
         const original = btn.textContent;
         btn.textContent = '✓';
         btn.classList.add('copied');
+        showToast('Link disalin ke clipboard');
         setTimeout(() => {
           btn.textContent = original;
           btn.classList.remove('copied');
         }, 1500);
       } catch (err) {
-        // Fallback
         const ta = document.createElement('textarea');
         ta.value = url;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
         document.body.removeChild(ta);
+        showToast('Link disalin ke clipboard');
       }
     }
 
-    // Open link
     function openLink(e, url) {
       e.stopPropagation();
       e.preventDefault();
       window.open(url, '_blank', 'noopener,noreferrer');
     }
 
-    // Card click = open link
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', () => {
-        const url = card.dataset.url;
-        window.open(url, '_blank', 'noopener,noreferrer');
+    function attachCardClicks() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.removeEventListener('click', onCardClick);
+        card.addEventListener('click', onCardClick);
       });
-    });
+    }
 
-    // Entrance animation with stagger
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
+    function onCardClick() {
+      const url = this.dataset.url;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
+    // ========== OBSERVER ==========
+    function observeCards() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.card').forEach((card, i) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.08}s`;
+        observer.observe(card);
       });
-    }, { threshold: 0.1 });
 
-    cards.forEach((card, i) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${i * 0.08}s`;
-      observer.observe(card);
-    });
+      setTimeout(() => {
+        document.querySelectorAll('.card').forEach(card => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        });
+      }, 100);
+    }
 
-    // Trigger initial reveal
-    setTimeout(() => {
-      cards.forEach(card => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      });
-    }, 100);
+    // ========== INIT ==========
+    setView(currentView);
+    updateBookmarkIcons();
+    renderFavorites();
+    attachCardGlow();
+    attachCardClicks();
+    observeCards();
   </script>
 </body>
 </html>
