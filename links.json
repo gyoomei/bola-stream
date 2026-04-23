@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Starball TV",
+    "url": "https://starballtv007.blogspot.com/",
+    "icon": "📡",
+    "color": "green",
+    "category": "Live TV",
+    "source": "Blogspot",
+    "priority": 1
+  },
+  {
+    "name": "KLTraid",
+    "url": "https://kltraid.pages.dev/",
+    "icon": "🖥️",
+    "color": "blue",
+    "category": "Live TV",
+    "source": "Pages.dev",
+    "priority": 2
+  },
+  {
+    "name": "Pelota Libre TV",
+    "url": "https://pelotalibretv.su/",
+    "icon": "📺",
+    "color": "purple",
+    "category": "Live TV",
+    "source": ".su",
+    "priority": 3
+  },
+  {
+    "name": "CarryFlix",
+    "url": "https://carryflix.com/wp/",
+    "icon": "🎬",
+    "color": "orange",
+    "category": "Highlights",
+    "source": "WordPress",
+    "priority": 4
+  },
+  {
+    "name": "Footy100",
+    "url": "https://footy100.net",
+    "icon": "⚽",
+    "color": "pink",
+    "category": "Live TV",
+    "source": ".net",
+    "priority": 5
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "name": "BolaStream",
+  "short_name": "BolaStream",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#030508",
+  "theme_color": "#00D4FF",
+  "description": "Kumpulan link nonton bola dengan UI cepat, favorit, dan mode installable.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
