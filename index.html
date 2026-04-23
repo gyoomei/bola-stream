@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#00d4ff">
+  <meta name="theme-color" content="#f5f8fc">
   <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi, favorit, dan siap di-install.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -13,13 +13,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #030508;
-      --surface: rgba(10, 13, 18, 0.68);
-      --surface-hover: rgba(15, 20, 28, 0.84);
-      --border: rgba(255,255,255,0.1);
-      --border-hover: rgba(255,255,255,0.25);
-      --text: #f4f7fb;
-      --text-secondary: #8a8f98;
+      --bg: #f5f8fc;
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-hover: rgba(255, 255, 255, 0.96);
+      --border: rgba(16, 24, 40, 0.08);
+      --border-hover: rgba(16, 24, 40, 0.16);
+      --text: #102033;
+      --text-secondary: #667085;
       --accent-green: #00e5a0;
       --accent-blue: #00d4ff;
       --accent-purple: #a855f7;
@@ -34,7 +34,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg) url('bg.jpg') no-repeat center center fixed;
+      background: linear-gradient(180deg, rgba(245,248,252,0.92), rgba(245,248,252,0.82)), url('bg.jpg') no-repeat center center fixed;
       background-size: cover;
       color: var(--text);
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -47,7 +47,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: linear-gradient(180deg, rgba(3,5,8,0.5), rgba(3,5,8,0.78));
+      background: linear-gradient(180deg, rgba(245,248,252,0.54), rgba(245,248,252,0.12));
       z-index: 0;
       pointer-events: none;
     }
@@ -56,24 +56,24 @@
       position: fixed;
       border-radius: 50%;
       filter: blur(100px);
-      opacity: 0.5;
+      opacity: 0.22;
       pointer-events: none;
       z-index: 0;
       animation: float 18s ease-in-out infinite;
     }
-    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,160,0.4), transparent 70%); top: -150px; left: -100px; }
-    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,212,255,0.35), transparent 70%); top: 28%; right: -150px; animation-delay: -6s; }
-    .orb-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(168,85,247,0.3), transparent 70%); bottom: -120px; left: 18%; animation-delay: -12s; }
-    .orb-4 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(251,146,60,0.3), transparent 70%); top: 60%; left: -80px; animation-delay: -9s; animation-duration: 24s; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,160,0.20), transparent 70%); top: -150px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,212,255,0.18), transparent 70%); top: 28%; right: -150px; animation-delay: -6s; }
+    .orb-3 { width: 450px; height: 450px; background: radial-gradient(circle, rgba(168,85,247,0.14), transparent 70%); bottom: -120px; left: 18%; animation-delay: -12s; }
+    .orb-4 { width: 280px; height: 280px; background: radial-gradient(circle, rgba(251,146,60,0.14), transparent 70%); top: 60%; left: -80px; animation-delay: -9s; animation-duration: 24s; }
     @keyframes float { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(40px,-40px) scale(1.08); } 66% { transform: translate(-30px,30px) scale(0.92); } }
 
     .noise {
       position: fixed;
       inset: 0;
-      opacity: 0.02;
+      opacity: 0.035;
       z-index: 1;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
 
     .container {
@@ -94,8 +94,8 @@
       align-items: center;
       gap: 8px;
       padding: 8px 18px;
-      background: linear-gradient(135deg, rgba(0,229,160,0.16), rgba(0,212,255,0.16));
-      border: 1px solid rgba(0,229,160,0.25);
+      background: linear-gradient(135deg, rgba(0,229,160,0.12), rgba(0,212,255,0.12));
+      border: 1px solid rgba(0,229,160,0.18);
       border-radius: 999px;
       font-size: 0.75rem;
       font-weight: 800;
@@ -104,7 +104,7 @@
       color: var(--accent-green);
       margin-bottom: 20px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,229,160,0.1);
+      box-shadow: 0 0 20px rgba(0,229,160,0.08);
     }
     .hero-badge .dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse-glow 2s ease-in-out infinite; }
     @keyframes pulse-glow { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.8); } }
@@ -114,7 +114,7 @@
       letter-spacing: -2px;
       line-height: 1;
       margin-bottom: 14px;
-      background: linear-gradient(135deg, #fff 0%, #00e5a0 40%, #00d4ff 70%, #a855f7 100%);
+      background: linear-gradient(135deg, #102033 0%, #0f766e 45%, #0891b2 75%, #7c3aed 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -152,7 +152,7 @@
     }
     .select {
       padding: 11px 14px;
-      background: rgba(10,13,18,0.6);
+      background: rgba(255,255,255,0.9);
       border: 1px solid var(--border);
       border-radius: 12px;
       color: var(--text);
@@ -169,13 +169,13 @@
       font-size: 0.92rem;
       font-weight: 700;
       color: var(--text);
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.86);
       border: 1px solid var(--border);
     }
     .btn:hover, .select:hover { background: rgba(255,255,255,0.12); border-color: var(--border-hover); }
     .btn-primary { background: linear-gradient(135deg, var(--accent-green), var(--accent-blue)); color: #000; border-color: transparent; box-shadow: 0 8px 28px rgba(0,229,160,0.18); }
     .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 35px rgba(0,229,160,0.25); }
-    .btn-ghost { background: rgba(10,13,18,0.52); }
+    .btn-ghost { background: rgba(255,255,255,0.78); }
     .btn-icon {
       width: 36px;
       height: 36px;
@@ -185,7 +185,7 @@
     .view-toggle {
       display: flex;
       gap: 4px;
-      background: rgba(10, 13, 18, 0.5);
+      background: rgba(255, 255, 255, 0.78);
       backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -204,8 +204,8 @@
       font-size: 1rem;
       transition: all 0.2s ease;
     }
-    .view-btn:hover { color: var(--text); background: rgba(255,255,255,0.08); }
-    .view-btn.active { color: var(--accent-green); background: rgba(0,229,160,0.12); }
+    .view-btn:hover { color: var(--text); background: rgba(255,255,255,0.86); }
+    .view-btn.active { color: var(--accent-green); background: rgba(0,229,160,0.14); }
 
     .chip-row {
       display: flex;
@@ -217,7 +217,7 @@
     .chip {
       padding: 9px 14px;
       border-radius: 999px;
-      background: rgba(10, 13, 18, 0.55);
+      background: rgba(255, 255, 255, 0.85);
       border: 1px solid var(--border);
       color: var(--text-secondary);
       font-size: 0.85rem;
@@ -225,8 +225,8 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .chip:hover { color: var(--text); border-color: var(--border-hover); background: rgba(255,255,255,0.08); }
-    .chip.active { color: #000; background: linear-gradient(135deg, var(--accent-green), var(--accent-blue)); border-color: transparent; }
+    .chip:hover { color: var(--text); border-color: var(--border-hover); background: rgba(255,255,255,0.86); }
+    .chip.active { color: #fff; background: linear-gradient(135deg, var(--accent-green), var(--accent-blue)); border-color: transparent; }
     .chip.fav.active { background: linear-gradient(135deg, var(--star), #ff9f1a); }
 
     .section {
@@ -246,7 +246,7 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
-      color: var(--accent-blue);
+      color: #0f766e;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -268,13 +268,13 @@
       overflow: hidden;
       transition: all 0.25s ease;
       cursor: pointer;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+      box-shadow: 0 14px 30px rgba(16,32,51,0.08);
     }
     .card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,212,255,0.12), transparent 35%);
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0,212,255,0.08), transparent 35%);
       opacity: 0;
       transition: opacity 0.2s ease;
       pointer-events: none;
@@ -301,8 +301,8 @@
       place-items: center;
       font-size: 1.2rem;
       flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(0,229,160,0.1), rgba(0,212,255,0.1));
-      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(0,229,160,0.08), rgba(0,212,255,0.08));
+      border: 1px solid rgba(16,32,51,0.08);
     }
     .card-actions {
       display: flex;
@@ -326,11 +326,11 @@
       text-align: center;
       padding: 34px 20px;
       color: var(--text-secondary);
-      background: rgba(10,13,18,0.45);
-      border: 1px dashed rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.72);
+      border: 1px dashed rgba(16,32,51,0.14);
       border-radius: 18px;
     }
-    .empty-state-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.5; }
+    .empty-state-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.22; }
 
     .footer {
       text-align: center;
@@ -378,20 +378,20 @@
     }
     .toast-success .toast-icon { background: rgba(0,229,160,0.15); color: var(--accent-green); }
     .toast-error .toast-icon { background: rgba(244,114,182,0.15); color: var(--accent-pink); }
-    .toast-info .toast-icon { background: rgba(0,212,255,0.15); color: var(--accent-blue); }
+    .toast-info .toast-icon { background: rgba(0,212,255,0.15); color: #0f766e; }
 
     .no-results {
       display: none;
       text-align: center;
       padding: 38px 18px;
       color: var(--text-secondary);
-      background: rgba(10,13,18,0.45);
+      background: rgba(255,255,255,0.72);
       border: 1px dashed rgba(255,255,255,0.1);
       border-radius: 20px;
       margin-top: 8px;
     }
     .no-results.show { display: block; }
-    .no-results-icon { font-size: 2.3rem; margin-bottom: 10px; opacity: 0.5; }
+    .no-results-icon { font-size: 2.3rem; margin-bottom: 10px; opacity: 0.22; }
 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(18px); }
@@ -452,7 +452,6 @@
         <select class="select" id="sortSelect" aria-label="Urutkan">
           <option value="recommended">Recommended</option>
           <option value="alphabet">A-Z</option>
-          <option value="category">Category</option>
           <option value="favorites">Favorit dulu</option>
         </select>
         <button class="btn btn-ghost" id="refreshBtn" type="button">↻ Reload</button>
@@ -463,15 +462,6 @@
         </div>
       </div>
     </div>
-
-    <div class="chip-row" id="categoryChips"></div>
-
-    <section class="section favorites-section" id="recentSection" hidden>
-      <div class="section-header">
-        <div class="section-title">⏱️ Recently Opened</div>
-      </div>
-      <div class="grid" id="recentGrid"></div>
-    </section>
 
     <section class="section favorites-section" id="favoritesSection" hidden>
       <div class="section-header">
@@ -512,18 +502,14 @@
     const STORAGE = {
       favorites: 'bolastream_favorites',
       view: 'bolastream_view',
-      sort: 'bolastream_sort',
-      category: 'bolastream_category',
-      recent: 'bolastream_recent'
+      sort: 'bolastream_sort'
     };
 
     const state = {
       links: [...FALLBACK_LINKS],
       favorites: safeParse(localStorage.getItem(STORAGE.favorites), []),
-      recent: safeParse(localStorage.getItem(STORAGE.recent), []),
       view: localStorage.getItem(STORAGE.view) || 'grid',
       sort: localStorage.getItem(STORAGE.sort) || 'recommended',
-      category: localStorage.getItem(STORAGE.category) || 'all'
     };
 
     let deferredPrompt = null;
@@ -534,9 +520,6 @@
       installBtn: document.getElementById('installBtn'),
       btnGrid: document.getElementById('btnGrid'),
       btnList: document.getElementById('btnList'),
-      categoryChips: document.getElementById('categoryChips'),
-      recentSection: document.getElementById('recentSection'),
-      recentGrid: document.getElementById('recentGrid'),
       favoritesSection: document.getElementById('favoritesSection'),
       favoritesGrid: document.getElementById('favoritesGrid'),
       cardGrid: document.getElementById('cardGrid'),
@@ -592,10 +575,6 @@
       return link;
     }
 
-    function loadFavorites() {
-      return state.favorites.filter((item) => item && item.url);
-    }
-
     function isFavorite(url) {
       return state.favorites.some((item) => item.url === url);
     }
@@ -613,15 +592,6 @@
       }
       localStorage.setItem(STORAGE.favorites, JSON.stringify(state.favorites));
       renderAll();
-    }
-
-    function recordRecent(item) {
-      const next = [
-        { ...item, openedAt: Date.now() },
-        ...state.recent.filter((x) => x.url !== item.url)
-      ].slice(0, 6);
-      state.recent = next;
-      localStorage.setItem(STORAGE.recent, JSON.stringify(state.recent));
     }
 
     function copyLink(event, url) {
@@ -643,9 +613,6 @@
     function openLink(event, item) {
       event.stopPropagation();
       event.preventDefault();
-      recordRecent(item);
-      localStorage.setItem(STORAGE.recent, JSON.stringify(state.recent));
-      renderRecent();
       window.open(item.url, '_blank', 'noopener,noreferrer');
     }
 
@@ -655,7 +622,6 @@
       el.btnGrid.classList.toggle('active', view === 'grid');
       el.btnList.classList.toggle('active', view === 'list');
       el.cardGrid.classList.toggle('list-view', view === 'list');
-      el.recentGrid.classList.toggle('list-view', view === 'list');
       el.favoritesGrid.classList.toggle('list-view', view === 'list');
       renderAll();
     }
@@ -666,29 +632,15 @@
       renderAll();
     }
 
-    function setCategory(category) {
-      state.category = category;
-      localStorage.setItem(STORAGE.category, category);
-      renderCategoryChips();
-      renderAll();
-    }
-
     function filteredLinks() {
-      let links = state.links.filter((item) => {
-        const matchesCategory = state.category === 'all' || (state.category === 'favorites' ? isFavorite(item.url) : item.category === state.category);
-        return matchesCategory;
-      });
-
+      const links = [...state.links];
       if (state.sort === 'alphabet') {
         links.sort((a, b) => a.name.localeCompare(b.name, 'id'));
-      } else if (state.sort === 'category') {
-        links.sort((a, b) => (a.category + a.name).localeCompare(b.category + b.name, 'id'));
       } else if (state.sort === 'favorites') {
         links.sort((a, b) => Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.name.localeCompare(b.name, 'id'));
       } else {
         links.sort((a, b) => Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.priority - b.priority || a.name.localeCompare(b.name, 'id'));
       }
-
       return links;
     }
 
@@ -710,34 +662,6 @@
           </div>
         </article>
       `;
-    }
-
-    function renderCategoryChips() {
-      const categories = uniq(state.links.map((item) => item.category));
-      const chips = [
-        { id: 'all', label: 'Semua' },
-        { id: 'favorites', label: 'Favorit', cls: 'fav' },
-        ...categories.map((name) => ({ id: name, label: name }))
-      ];
-      el.categoryChips.innerHTML = chips.map((chip) => {
-        const active = state.category === chip.id;
-        return `<button class="chip ${chip.cls || ''} ${active ? 'active' : ''}" type="button" data-category="${escapeHtml(chip.id)}">${escapeHtml(chip.label)}</button>`;
-      }).join('');
-      el.categoryChips.querySelectorAll('.chip').forEach((button) => {
-        button.addEventListener('click', () => setCategory(button.dataset.category));
-      });
-    }
-
-    function renderRecent() {
-      const recentItems = state.recent.slice(0, 4).filter((item) => item && item.url);
-      if (!recentItems.length) {
-        el.recentSection.hidden = true;
-        el.recentGrid.innerHTML = '';
-        return;
-      }
-      el.recentSection.hidden = false;
-      el.recentGrid.innerHTML = recentItems.map((item) => cardTemplate(item)).join('');
-      attachCardBehaviors(el.recentGrid);
     }
 
     function renderFavorites() {
@@ -767,7 +691,7 @@
     function attachCardBehaviors(root) {
       root.querySelectorAll('.card').forEach((card) => {
         const url = card.dataset.url;
-        const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || state.recent.find((link) => link.url === url) || { url };
+        const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || { url };
         const favBtn = card.querySelector('.fav-btn');
         const copyBtn = card.querySelector('.copy-btn');
         const openBtn = card.querySelector('.open-btn');
@@ -794,7 +718,7 @@
     function onCardClick(e) {
       if (e.target.closest('button')) return;
       const url = this.dataset.url;
-      const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || state.recent.find((link) => link.url === url) || { url };
+      const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || { url };
       openLink(e, item);
     }
 
@@ -803,20 +727,16 @@
     }
 
     function renderAll() {
-      renderCategoryChips();
-      renderRecent();
       renderFavorites();
       renderMain();
       updateStats();
       el.btnGrid.classList.toggle('active', state.view === 'grid');
       el.btnList.classList.toggle('active', state.view === 'list');
       el.cardGrid.classList.toggle('list-view', state.view === 'list');
-      el.recentGrid.classList.toggle('list-view', state.view === 'list');
       el.favoritesGrid.classList.toggle('list-view', state.view === 'list');
       const noMain = !el.cardGrid.querySelector('.card');
-      const noRecent = el.recentSection.hidden || !el.recentGrid.querySelector('.card');
       const noFavs = el.favoritesSection.hidden || !el.favoritesGrid.querySelector('.card');
-      el.noResults.classList.toggle('show', noMain && noRecent && noFavs);
+      el.noResults.classList.toggle('show', noMain && noFavs);
     }
 
     function showToast(message, type = 'success') {
