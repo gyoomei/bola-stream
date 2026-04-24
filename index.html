@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f8fc">
-  <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi, favorit, dan siap di-install.">
+  <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi, favorit, dan siap dibuka cepat.">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <title>BolaStream — Link Nonton Bola</title>
@@ -484,7 +487,7 @@
 
     <footer class="footer">
       <div><strong>BolaStream</strong> • link bisa berubah sewaktu-waktu</div>
-      <div style="margin-top:6px">Installable PWA • favorites tersimpan di browser • cepat dibuka di HP</div>
+      <div style="margin-top:6px">Web ringan • favorites tersimpan di browser • cepat dibuka di HP</div>
     </footer>
   </div>
 
@@ -502,8 +505,11 @@
     const STORAGE = {
       favorites: 'bolastream_favorites',
       view: 'bolastream_view',
-      sort: 'bolastream_sort'
+      sort: 'bolastream_sort',
+      build: 'bolastream_build'
     };
+
+    const BUILD_ID = '2026-04-24-4';
 
     const state = {
       links: [...FALLBACK_LINKS],
@@ -533,6 +539,23 @@
         return parsed;
       } catch (e) {
         return fallback;
+      }
+    }
+
+    async function clearLegacyClientState() {
+      try {
+        if (localStorage.getItem(STORAGE.build) === BUILD_ID) return;
+        localStorage.setItem(STORAGE.build, BUILD_ID);
+        if ('serviceWorker' in navigator) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((reg) => reg.unregister()));
+        }
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((key) => caches.delete(key)));
+        }
+      } catch (error) {
+        console.debug('Cleanup skipped', error);
       }
     }
 
@@ -767,9 +790,8 @@
     }
 
     function registerPWA() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      }
+      // Web-only mode: stop registering service workers so old cache can't linger.
+      clearLegacyClientState();
     }
 
     el.sortSelect.value = state.sort;

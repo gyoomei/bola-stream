@@ -1,45 +1,22 @@
-const CACHE = 'bolastream-v2';
-const ASSETS = ['./', './index.html', './bg.jpg', './links.json', './manifest.webmanifest', './icon.svg'];
-
+// Web-only mode: keep this SW as a cleanup path for older installs.
+// New builds unregister service workers from the page itself.
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))).then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+      await self.registration.unregister();
+    } finally {
+      await self.clients.claim();
+    }
+  })());
 });
 
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  if (request.method !== 'GET') return;
-
-  const isNavigation = request.mode === 'navigate' || request.destination === 'document';
-
-  if (isNavigation) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE).then((cache) => cache.put('./index.html', copy)).catch(() => {});
-          return response;
-        })
-        .catch(() => caches.match('./index.html'))
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => {});
-          return response;
-        })
-        .catch(() => caches.match('./index.html'));
-    })
-  );
+  if (event.request.method !== 'GET') return;
+  event.respondWith(fetch(event.request));
 });
