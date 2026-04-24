@@ -621,7 +621,7 @@
 
     <section class="section">
       <div class="section-header">
-        <div class="section-title" id="mainTitle">📡 Link Streaming</div>
+        <div class="section-title" id="mainTitle"></div>
       </div>
       <main class="grid" id="cardGrid"></main>
     </section>
@@ -836,7 +836,7 @@
       el.cardGrid.innerHTML = items.length ? items.map((item) => cardTemplate(item)).join('') : '';
       attachCardBehaviors(el.cardGrid);
       el.noResults.hidden = items.length > 0;
-      el.mainTitle.textContent = '📡 Link Streaming';
+      el.mainTitle.textContent = '';
     }
 
     function updateStats() {
