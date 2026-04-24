@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f5f8fc">
-  <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi, favorit, dan siap dibuka cepat.">
+  <meta name="description" content="BolaStream — kumpulan link nonton bola yang rapi dan siap dibuka cepat.">
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -282,7 +282,6 @@
     .card-title { font-weight: 800; font-size: 0.95rem; margin-bottom: 3px; }
     .card-url { font-size: 0.76rem; color: var(--text-secondary); word-break: break-all; }
 
-    .favorites-section[hidden], .section[hidden] { display: none !important; }
     .empty-state {
       text-align: center;
       padding: 34px 20px;
@@ -514,7 +513,6 @@
     }
 
     .section-title { color: #0f766e; }
-    .favorites-section .section-title { color: #7c3aed; }
 
     .card {
       background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.80));
@@ -602,26 +600,13 @@
     <div class="toolbar">
       <div class="section-heading" id="allHeading">Semua Situs</div>
       <div class="toolbar-right">
-        <select class="select" id="sortSelect" aria-label="Urutkan">
-          <option value="recommended">Recommended</option>
-          <option value="alphabet">A-Z</option>
-          <option value="favorites">Favorit dulu</option>
-        </select>
-        <button class="btn btn-ghost" id="refreshBtn" type="button">↻ Reload</button>
         <button class="btn btn-primary" id="installBtn" type="button" hidden>＋ Install</button>
       </div>
     </div>
 
-    <section class="section favorites-section" id="favoritesSection" hidden>
-      <div class="section-header">
-        <div class="section-title">⭐ Favorit</div>
-      </div>
-      <div class="grid" id="favoritesGrid"></div>
-    </section>
-
     <section class="section">
       <div class="section-header">
-        <div class="section-title" id="mainTitle"></div>
+        <div class="section-title" id="mainTitle">Streaming Bola</div>
       </div>
       <main class="grid" id="cardGrid"></main>
     </section>
@@ -633,7 +618,7 @@
 
     <footer class="footer">
       <div><strong>BolaStream</strong> • link bisa berubah sewaktu-waktu</div>
-      <div style="margin-top:6px">Web ringan • favorites tersimpan di browser • cepat dibuka di HP</div>
+      <div style="margin-top:6px">Web ringan • cepat dibuka di HP</div>
     </footer>
   </div>
 
@@ -649,8 +634,6 @@
     ];
 
     const STORAGE = {
-      favorites: 'bolastream_favorites',
-      sort: 'bolastream_sort',
       build: 'bolastream_build'
     };
 
@@ -658,18 +641,12 @@
 
     const state = {
       links: [...FALLBACK_LINKS],
-      favorites: safeParse(localStorage.getItem(STORAGE.favorites), []),
-      sort: localStorage.getItem(STORAGE.sort) || 'recommended',
     };
 
     let deferredPrompt = null;
 
     const el = {
-      sortSelect: document.getElementById('sortSelect'),
-      refreshBtn: document.getElementById('refreshBtn'),
       installBtn: document.getElementById('installBtn'),
-      favoritesSection: document.getElementById('favoritesSection'),
-      favoritesGrid: document.getElementById('favoritesGrid'),
       cardGrid: document.getElementById('cardGrid'),
       noResults: document.getElementById('noResults'),
     };
@@ -740,25 +717,6 @@
       return link;
     }
 
-    function isFavorite(url) {
-      return state.favorites.some((item) => item.url === url);
-    }
-
-    function toggleFavorite(event, item) {
-      event.stopPropagation();
-      event.preventDefault();
-      const idx = state.favorites.findIndex((x) => x.url === item.url);
-      if (idx >= 0) {
-        state.favorites.splice(idx, 1);
-        showToast('Dihapus dari favorit', 'info');
-      } else {
-        state.favorites.unshift(item);
-        showToast('Ditambahkan ke favorit', 'success');
-      }
-      localStorage.setItem(STORAGE.favorites, JSON.stringify(state.favorites));
-      renderAll();
-    }
-
     function copyLink(event, url) {
       event.stopPropagation();
       event.preventDefault();
@@ -781,32 +739,18 @@
       window.open(item.url, '_blank', 'noopener,noreferrer');
     }
 
-    function setSort(sort) {
-      state.sort = sort;
-      localStorage.setItem(STORAGE.sort, sort);
-      renderAll();
-    }
-
     function filteredLinks() {
       const links = [...state.links];
-      if (state.sort === 'alphabet') {
-        links.sort((a, b) => a.name.localeCompare(b.name, 'id'));
-      } else if (state.sort === 'favorites') {
-        links.sort((a, b) => Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.name.localeCompare(b.name, 'id'));
-      } else {
-        links.sort((a, b) => Number(isFavorite(b.url)) - Number(isFavorite(a.url)) || a.priority - b.priority || a.name.localeCompare(b.name, 'id'));
-      }
+      links.sort((a, b) => a.priority - b.priority || a.name.localeCompare(b.name, 'id'));
       return links;
     }
 
     function cardTemplate(item, opts = {}) {
-      const favorite = isFavorite(item.url);
       return `
         <article class="card" data-url="${escapeHtml(item.url)}" data-name="${escapeHtml(item.name.toLowerCase())}" data-category="${escapeHtml(item.category.toLowerCase())}" data-source="${escapeHtml(item.source.toLowerCase())}" data-color="${escapeHtml(item.color || 'green')}">
           <div class="card-header">
             <div class="card-icon">${escapeHtml(item.icon)}</div>
             <div class="card-actions">
-              <button class="btn btn-icon fav-btn" type="button" title="Favorit">${favorite ? '★' : '☆'}</button>
               <button class="btn btn-icon copy-btn" type="button" title="Copy link">📋</button>
               <button class="btn btn-icon open-btn" type="button" title="Buka tab baru">↗</button>
             </div>
@@ -819,24 +763,12 @@
       `;
     }
 
-    function renderFavorites() {
-      const favs = state.favorites.filter(Boolean);
-      if (!favs.length) {
-        el.favoritesSection.hidden = true;
-        el.favoritesGrid.innerHTML = '';
-        return;
-      }
-      el.favoritesSection.hidden = false;
-      el.favoritesGrid.innerHTML = favs.map((item) => cardTemplate(item)).join('');
-      attachCardBehaviors(el.favoritesGrid);
-    }
-
     function renderMain() {
       const items = filteredLinks();
       el.cardGrid.innerHTML = items.length ? items.map((item) => cardTemplate(item)).join('') : '';
       attachCardBehaviors(el.cardGrid);
       el.noResults.hidden = items.length > 0;
-      el.mainTitle.textContent = '';
+      el.mainTitle.textContent = 'Streaming Bola';
     }
 
     function updateStats() {
@@ -846,8 +778,7 @@
     function attachCardBehaviors(root) {
       root.querySelectorAll('.card').forEach((card) => {
         const url = card.dataset.url;
-        const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || { url };
-        const favBtn = card.querySelector('.fav-btn');
+        const item = state.links.find((link) => link.url === url) || { url };
         const copyBtn = card.querySelector('.copy-btn');
         const openBtn = card.querySelector('.open-btn');
 
@@ -856,7 +787,6 @@
         card.removeEventListener('click', onCardClick);
         card.addEventListener('click', onCardClick);
 
-        favBtn && favBtn.addEventListener('click', (event) => toggleFavorite(event, item));
         copyBtn && copyBtn.addEventListener('click', (event) => copyLink(event, item.url));
         openBtn && openBtn.addEventListener('click', (event) => openLink(event, item));
       });
@@ -873,17 +803,14 @@
     function onCardClick(e) {
       if (e.target.closest('button')) return;
       const url = this.dataset.url;
-      const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || { url };
+      const item = state.links.find((link) => link.url === url) || { url };
       openLink(e, item);
     }
 
     function renderAll() {
-      renderFavorites();
       renderMain();
       updateStats();
-      const noMain = !el.cardGrid.querySelector('.card');
-      const noFavs = el.favoritesSection.hidden || !el.favoritesGrid.querySelector('.card');
-      el.noResults.classList.toggle('show', noMain && noFavs);
+      el.noResults.classList.toggle('show', !el.cardGrid.querySelector('.card'));
     }
 
     function showToast(message, type = 'success') {
@@ -918,10 +845,6 @@
       clearLegacyClientState();
     }
 
-    el.sortSelect.value = state.sort;
-    el.sortSelect.addEventListener('change', (e) => setSort(e.target.value));
-    el.refreshBtn.addEventListener('click', () => loadLinks());
-
     window.addEventListener('beforeinstallprompt', (event) => {
       event.preventDefault();
       deferredPrompt = event;
@@ -937,7 +860,6 @@
       showToast(choice.outcome === 'accepted' ? 'App siap di-install' : 'Install dibatalkan', choice.outcome === 'accepted' ? 'success' : 'info');
     });
 
-    window.toggleFavorite = toggleFavorite;
     window.copyLink = copyLink;
     window.openLink = openLink;
 
