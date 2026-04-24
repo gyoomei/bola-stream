@@ -402,6 +402,216 @@
       .toolbar-right { width: 100%; }
       .select { width: 100%; }
     }
+  /* --- colorful refresh --- */
+    body {
+      background:
+        radial-gradient(circle at 12% 10%, rgba(34, 197, 94, 0.22), transparent 20%),
+        radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.20), transparent 22%),
+        radial-gradient(circle at 50% 92%, rgba(168, 85, 247, 0.16), transparent 24%),
+        linear-gradient(180deg, #f5fbff 0%, #edf4ff 44%, #f8f5ff 100%),
+        url('bg.jpg') no-repeat center center fixed;
+      background-size: cover, cover, cover, cover, cover;
+    }
+    body::before {
+      background: linear-gradient(180deg, rgba(255,255,255,0.46), rgba(255,255,255,0.10));
+    }
+    .orb { opacity: 0.34; filter: blur(110px); }
+    .orb-1 { background: radial-gradient(circle, rgba(34,197,94,0.28), transparent 70%); }
+    .orb-2 { background: radial-gradient(circle, rgba(59,130,246,0.22), transparent 70%); }
+    .orb-3 { background: radial-gradient(circle, rgba(168,85,247,0.20), transparent 70%); }
+    .orb-4 { background: radial-gradient(circle, rgba(251,146,60,0.20), transparent 70%); }
+
+    .hero {
+      position: relative;
+      padding: 28px 22px 24px;
+      margin-bottom: 22px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.84), rgba(255,255,255,0.56));
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(59,130,246,0.12), transparent 28%),
+        radial-gradient(circle at 82% 26%, rgba(34,197,94,0.10), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(168,85,247,0.08), transparent 28%);
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: 0 24px 60px rgba(16, 32, 51, 0.12);
+      backdrop-filter: blur(18px) saturate(1.2);
+    }
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(6px);
+    }
+    .hero::before {
+      width: 260px;
+      height: 260px;
+      top: -110px;
+      right: -90px;
+      background: radial-gradient(circle, rgba(34,197,94,0.22), transparent 68%);
+    }
+    .hero::after {
+      width: 220px;
+      height: 220px;
+      bottom: -120px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(168,85,247,0.18), transparent 68%);
+    }
+    .hero-badge {
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(241,245,249,0.78));
+      color: #0f766e;
+      border: 1px solid rgba(34,197,94,0.18);
+      box-shadow: 0 10px 22px rgba(16,32,51,0.06), 0 0 24px rgba(34,197,94,0.06);
+    }
+    .hero h1 {
+      background: linear-gradient(120deg, #0f172a 0%, #2563eb 24%, #14b8a6 55%, #22c55e 78%, #a855f7 100%);
+      background-size: 220% auto;
+      text-shadow: 0 12px 30px rgba(37,99,235,0.08);
+    }
+    .hero p { color: #475569; }
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .hero-pills span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.72));
+      border: 1px solid rgba(255,255,255,0.78);
+      color: #17324d;
+      font-size: 0.82rem;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(16, 32, 51, 0.07);
+    }
+
+    .toolbar {
+      margin: 0 0 16px;
+      padding: 16px 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,255,255,0.58));
+      border: 1px solid rgba(255,255,255,0.72);
+      box-shadow: 0 16px 36px rgba(16, 32, 51, 0.08);
+      backdrop-filter: blur(18px) saturate(1.1);
+    }
+    .toolbar-right { gap: 10px; }
+    .select, .btn {
+      border-radius: 14px;
+      box-shadow: 0 10px 20px rgba(16,32,51,0.06);
+    }
+    .select {
+      background: rgba(255,255,255,0.94);
+      padding: 12px 15px;
+    }
+    .btn:hover, .select:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.96);
+      border-color: rgba(15,118,110,0.24);
+    }
+    .btn-ghost { background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(241,245,249,0.82)); }
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e, #06b6d4 45%, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(34,197,94,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 18px 36px rgba(34,197,94,0.32); }
+    .btn-icon { background: rgba(255,255,255,0.92); }
+
+    .chip-row {
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(255,255,255,0.66);
+      box-shadow: 0 12px 28px rgba(16,32,51,0.05);
+      backdrop-filter: blur(12px);
+    }
+    .chip {
+      background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.74));
+      color: #5f6b7a;
+    }
+
+    .section-title { color: #0f766e; }
+    .favorites-section .section-title { color: #7c3aed; }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.80));
+      backdrop-filter: blur(20px) saturate(1.15);
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.78);
+      padding: 14px;
+      box-shadow: 0 18px 34px rgba(16,32,51,0.10);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--card-accent, #22c55e), rgba(255,255,255,0));
+      opacity: 0.95;
+      pointer-events: none;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.95);
+      box-shadow: 0 28px 52px rgba(16,32,51,0.18);
+    }
+    .card-icon {
+      background: radial-gradient(circle at 28% 28%, var(--card-accent-soft, rgba(34,197,94,0.16)), rgba(255,255,255,0.92) 65%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 20px rgba(16,32,51,0.07);
+    }
+    .card-title {
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: #102033;
+    }
+    .card-url {
+      display: inline-flex;
+      margin-top: 4px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.08);
+      color: #475569;
+      font-weight: 700;
+    }
+    .card-actions .btn-icon {
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(16,32,51,0.07);
+      box-shadow: 0 8px 18px rgba(16,32,51,0.05);
+    }
+
+    .card[data-color="green"] { --card-accent: #22c55e; --card-accent-soft: rgba(34,197,94,0.16); }
+    .card[data-color="blue"] { --card-accent: #3b82f6; --card-accent-soft: rgba(59,130,246,0.16); }
+    .card[data-color="purple"] { --card-accent: #a855f7; --card-accent-soft: rgba(168,85,247,0.16); }
+    .card[data-color="orange"] { --card-accent: #fb923c; --card-accent-soft: rgba(251,146,60,0.16); }
+    .card[data-color="pink"] { --card-accent: #f472b6; --card-accent-soft: rgba(244,114,182,0.16); }
+    .card[data-color="yellow"] { --card-accent: #facc15; --card-accent-soft: rgba(250,204,21,0.16); }
+    .card[data-color="red"] { --card-accent: #f87171; --card-accent-soft: rgba(248,113,113,0.16); }
+
+    .footer {
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.5);
+      color: #475569;
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 24px 16px 20px; border-radius: 24px; }
+      .toolbar { padding: 14px; border-radius: 20px; }
+      .chip-row { padding: 10px; }
+      .card { border-radius: 20px; }
+      .hero-pills span { flex: 1 1 calc(50% - 8px); justify-content: center; }
+    }
+
   </style>
 </head>
 <body>
@@ -416,6 +626,12 @@
       <div class="hero-badge"><span class="dot"></span> Live Stream Hub</div>
       <h1>BolaStream</h1>
       <p>Kumpulan link nonton bola yang rapi, favorit, dan siap di-install.</p>
+      <div class="hero-pills" aria-label="Keunggulan utama">
+        <span>⚡ Cepat</span>
+        <span>🎨 Berwarna</span>
+        <span>📱 Mobile friendly</span>
+        <span>⭐ Favorit</span>
+      </div>
     </header>
 
     <div class="toolbar">
@@ -694,10 +910,6 @@
       const url = this.dataset.url;
       const item = state.links.find((link) => link.url === url) || state.favorites.find((link) => link.url === url) || { url };
       openLink(e, item);
-    }
-
-    function updateStats() {
-      // intentionally left minimal for the clean layout
     }
 
     function renderAll() {
