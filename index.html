@@ -37,7 +37,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background: linear-gradient(180deg, rgba(245,248,252,0.92), rgba(245,248,252,0.82)), url('bg.jpg') no-repeat center center fixed;
+      background: linear-gradient(180deg, rgba(245,248,252,0.92), rgba(245,248,252,0.82)), url('bg.jpg') no-repeat center center scroll;
       background-size: cover;
       color: var(--text);
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -379,8 +379,22 @@
       .toast { min-width: unset; width: 100%; }
     }
 
-    @media (hover: none) {
-      .card-actions { opacity: 1; transform: none; }
+    @media (max-width: 768px), (prefers-reduced-motion: reduce) {
+      body { background-attachment: scroll; }
+      .orb,
+      .noise { display: none; }
+      .hero,
+      .toolbar,
+      .chip-row,
+      .card,
+      .hero-badge { backdrop-filter: none; }
+      .hero,
+      .toolbar,
+      .chip-row,
+      .card { box-shadow: 0 10px 24px rgba(16,32,51,0.08); }
+      .hero-badge .dot,
+      .orb { animation: none; }
+      .card::before { display: none; }
     }
 
     @media (max-width: 480px) {
@@ -394,7 +408,8 @@
         radial-gradient(circle at 88% 14%, rgba(59, 130, 246, 0.20), transparent 22%),
         radial-gradient(circle at 50% 92%, rgba(168, 85, 247, 0.16), transparent 24%),
         linear-gradient(180deg, #f5fbff 0%, #edf4ff 44%, #f8f5ff 100%),
-        url('bg.jpg') no-repeat center center fixed;
+        url('bg.jpg') no-repeat center center scroll;
+      background-attachment: scroll;
       background-size: cover, cover, cover, cover, cover;
     }
     body::before {
